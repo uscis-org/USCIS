@@ -1,0 +1,362 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Check your USCIS case status online">
+  <meta name="author" content="U.S. Citizenship and Immigration Services">
+  <title>USCIS - Verifique Estatus de Caso</title>
+  <link rel="shortcut icon" href="imagenes/images USCIS.png" type="image/x-icon">
+
+  <style>
+    
+    /* --- Estilos generales --- */
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* --- Encabezado --- */
+    header {
+      background-color: #e6e9eb;
+      padding: 15px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .contenedor-header {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 220px;
+    }
+
+    /* --- Navegación normal (para PC) --- */
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a {
+      color: rgb(47, 46, 46);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #0800ff;
+    }
+
+    /* --- Botón MENÚ (solo visible en móviles) --- */
+    .menu-btn {
+      background-color: #0071bb;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+      transition: background-color 0.3s;
+    }
+
+    .menu-btn:hover {
+      background-color: #005fa3;
+    }
+
+    /* --- Menú móvil con animación --- */
+    .menu-movil {
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+    }
+
+    .menu-movil a {
+      padding: 10px;
+      color: #333;
+      text-decoration: none;
+    }
+
+    .menu-movil a:hover {
+      background-color: #e6f0fa;
+    }
+
+    .menu-movil.show {
+      max-height: 400px;
+      opacity: 1;
+    }
+
+    /* --- Contenido principal --- */
+    main {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      text-align: left;
+    }
+
+    h1 {
+      color: #00457c;
+      font-size: 28px;
+      border-bottom: 2px solid #00457c;
+      padding-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    /* --- Caja del formulario --- */
+    .caja {
+      background-color: #f8f8f8;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #00457c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0066cc;
+    }
+
+    /* --- Sección de herramientas relacionadas --- */
+    .herramientas {
+      width: 90%;
+      max-width: 1200px;
+      margin: 50px auto;
+    }
+
+    .herramientas h2 {
+      color: #00457c;
+      font-size: 24px;
+      border-bottom: 2px solid #00457c;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    }
+
+    .grid-fotos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .tarjeta {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      background-color: #fff;
+    }
+
+    .tarjeta:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .tarjeta img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* La primera imagen se extiende en toda la fila */
+    .grande {
+      grid-column: 1 / -1;
+    }
+
+    .grande img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    /* --- Pie de página --- */
+    footer {
+      background-color: #00457c;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    /* Imagen dentro del footer */
+    .footer-imagen {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .footer-imagen img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-top: 2px solid #ffffff;
+    }
+
+    /* --- Diseño responsive --- */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      .menu-btn {
+        display: block;
+      }
+    }
+  
+  </style>
+
+
+  <!-- Enlace al archivo CSS externo -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <!-- ENCABEZADO -->
+  <header>
+    <div class="contenedor-header">
+      <div class="logo">
+        <img src="imagenes/us.1png.png" alt="Logo USCIS">
+      </div>
+
+      <button id="menuBtn" class="menu-btn" onclick="toggleMenu()">MENÚ</button>
+
+      <nav>
+        <a href="#">TEMAS</a>
+        <a href="#">FORMULARIOS</a>
+        <a href="#">CIUDADANiA</a>
+        <a href="#">RESIDENCIA PERMANENTE</a>
+        <a href="#">LEYES</a>
+        <a href="#">HERRAMIENTAS</a>
+      </nav>
+
+      <div id="menuMovil" class="menu-movil">
+        <a href="#">TEMAS</a>
+        <a href="#">FORMULARIOS</a>
+        <a href="#">CIUDADANiA</a>
+        <a href="#">RESIDENCIA PERMANENTE</a>
+        <a href="#">LEYES</a>
+        <a href="#">HERRAMIENTAS</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CUERPO PRINCIPAL -->
+  <main>
+    <h1>Verifique el Estatus de su Caso</h1>
+    <p>
+      El numero de recibo es un identificador unico de 13 caracteres que se compone de tres letras y 10 numeros.
+      Omita los guiones (-) al ingresar un numero de recibo. Puede incluir los demas caracteres, incluidos los asteriscos (*),
+      si aparecen en su notificacion. Cuando se ingresa un numero de recibo, el boton de Verificacion se habilitara.
+    </p>
+
+    <div class="caja">
+      <form id="loginForm">
+        <label for="password">Numero de recibo:</label>
+        <input type="password" id="password" required>
+        <button type="submit">Verificar</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- SECCION DE FOTOS -->
+  <section class="herramientas">
+    <h2>Herramientas Relacionadas</h2>
+
+    <div class="grid-fotos">
+      <div class="tarjeta grande">
+        <img src="imagenes/logo/1logo.png" alt="Herramienta 1">
+      </div>
+      <div class="tarjeta">
+        <img src="imagenes/logo/p2.png" alt="Herramienta 2">
+      </div>
+      <div class="tarjeta">
+        <img src="imagenes/logo/p1.png" alt="Herramienta 3">
+      </div>
+      <div class="tarjeta">
+        <img src="imagenes/logo/p3.png" alt="Herramienta 4">
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER CON IMAGEN -->
+  <footer>
+    <p> 2025 U.S. Citizenship and Immigration Services</p>
+    <div class="footer-imagen">
+      <img src="imagenes/logo/p4.png" alt="Informacion de contacto">
+    </div>
+  </footer>
+
+  <!-- Enlace al archivo JavaScript externo -->
+<script>
+    function toggleMenu() {
+      const menu = document.getElementById("menuMovil");
+      const btn = document.getElementById("menuBtn");
+      menu.classList.toggle("show");
+      btn.textContent = menu.classList.contains("show") ? "✖ CERRAR" : "MENÚ";
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      const correctPassword = 'IOE1234567890';
+      if (password === correctPassword) {
+        window.location.href = 'http://127.0.0.1:5500/case-status.html';
+      } else {
+        alert('Número de recibo incorrecto. Inténtalo de nuevo.');
+      }
+    });
+  </script>
+   
+</body>
+</html>

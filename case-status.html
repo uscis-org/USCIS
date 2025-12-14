@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Status Results - USCIS</title>
+    
+    <link rel="website icon" type="png" href="imagenes/">
+
+    <!-- Estilos de USWDS -->
+    <link rel="stylesheet" href="assets/css/uswds.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/case-status.css">
+
+    <style>
+      :root{
+        --uscis-blue: #0b67b2;
+        --uscis-blue-dark: #084f87;
+        --muted: #6b7280;
+        --page-bg: #f5f7f9;
+        --border: #e6eaef;
+        --radius: 8px;
+      }
+
+      body {
+        background: var(--page-bg) !important;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        margin:0;
+      }
+
+      /* Encabezado similar a la segunda foto */
+      .site-header {
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--border);
+        padding: 10px 18px;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      /* logo clicable (imagen) */
+      .site-logo-link {
+        display:flex;
+        align-items:center;
+        gap:12px;
+        text-decoration:none;
+      }
+
+      .site-logo {
+        display:block;
+        width: 220px;             /* ajusta tamaño del logo */
+        max-width:32vw;
+        height:auto;
+        object-fit:contain;
+      }
+
+      /* Texto y enlaces del header al lado derecho */
+      .site-nav {
+        display:flex;
+        gap:12px;
+        align-items:center;
+      }
+      .site-nav a {
+        color: var(--uscis-blue-dark);
+        font-weight:600;
+        text-decoration:none;
+        padding:8px 10px;
+        border-radius:6px;
+      }
+      .site-nav a:hover { background:#f3f6fb; }
+
+      /* pequeño tagline/vertical title (opcional) */
+      .vertical-title {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-weight:700;
+        color:var(--muted);
+        margin-left:6px;
+        display:none; /* mostrar en pantallas grandes si se desea */
+      }
+
+      @media(min-width:1200px){
+        .vertical-title { display:block; }
+      }
+
+      /* Ajustes para móvil */
+      @media(max-width:640px){
+        .site-logo { width:140px; }
+        .site-nav { font-size:14px; }
+      }
+
+      /* === Estilos ya existentes del body (copiados de tu CSS) === */
+      .case-status-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-left: 8px solid var(--uscis-blue);
+        border-radius: var(--radius);
+        padding: 20px;
+        margin: 2rem 0;
+      }
+      /* (el resto de tus estilos ya los mantienes en tu custom.css) */
+
+      /* ======= ESTILOS ADICIONADOS: requisitos + botones ======= */
+      .requirements-box {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 18px;
+        margin-top: 22px;
+        max-width: 100%;
+        box-shadow: 0 2px 6px rgba(16,24,40,0.03);
+      }
+
+      .requirements-box h2 {
+        margin: 0 0 10px;
+        font-size: 1.05rem;
+        color: #111827;
+      }
+
+      .requirement-row {
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding: 10px 0;
+        border-top: 1px solid #f3f5f7;
+      }
+      .requirement-row:first-of-type { border-top: none; }
+
+      .requirement-name {
+        display:flex;
+        align-items:center;
+        gap:8px;
+        font-weight:600;
+        color:#111827;
+      }
+      .requirement-note {
+        display:block;
+        font-size:0.9rem;
+        color:var(--muted);
+        font-weight:400;
+      }
+
+      .status-btn {
+        border: none;
+        padding: 8px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight:700;
+        cursor: pointer;
+        min-width:106px;
+        text-align:center;
+        box-shadow: 0 1px 0 rgba(16,24,40,0.04);
+      }
+
+      /* estados visuales */
+      .status-pending {
+        background: #e5e7eb;
+        color: #6b7280;
+      }
+      .status-review {
+        background: #f59e0b;
+        color: #fff;
+      }
+      .status-complete {
+        background: #16a34a;
+        color: #fff;
+      }
+
+      /* pequeño icono dentro del botón (opcional) */
+      .status-icon {
+        display:inline-block;
+        margin-right:8px;
+        font-size:14px;
+        vertical-align:middle;
+      }
+
+      @media(max-width:720px){
+        .requirement-row { flex-direction: column; align-items:flex-start; gap:8px; }
+        .status-btn { width:100%; max-width:240px; }
+      }
+
+      /* ======= Estilos para el recuadro de pago añadido ======= */
+      .payment-box {
+        background: linear-gradient(180deg,#ffffff,#fbfdff);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px;
+        margin-top: 28px;
+        box-shadow: 0 6px 18px rgba(14,30,52,0.06);
+      }
+      .payment-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+      .payment-info { font-size:0.98rem; color:#111827; }
+      .payment-price { font-weight:800; font-size:1.15rem; color:#111827; }
+      .small-note { color:var(--muted); font-size:0.9rem; margin-top:8px; }
+      @media(max-width:720px){
+        .payment-row { flex-direction:column; align-items:flex-start; }
+      }
+    </style>
+    
+    <style>
+        /* ======= Estilos para centrar el cuadro de PayPal ======= */
+.paypal-container {
+    max-width: 450px;
+    margin: 40px auto !important;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(14, 30, 52, 0.08);
+    text-align: center;
+}
+
+.paypal-container h2 {
+    margin-top: 0;
+    color: #111827;
+    font-size: 1.5rem;
+}
+
+.paypal-container .subtitle {
+    color: var(--muted);
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.paypal-container .price {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--uscis-blue);
+    margin: 10px 0 25px;
+}
+
+.paypal-footer {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+#paypal-button-container {
+    margin: 0 auto;
+    max-width: 300px;
+}
+
+@media (max-width: 640px) {
+    .paypal-container {
+        padding: 20px;
+        margin: 30px 15px !important;
+    }
+}
+    
+    </style>
+
+    <style>
+        /* ======= Estilos para los botones calendario en el historial ======= */
+.timeline {
+    position: relative;
+    margin-top: 20px;
+}
+
+.timeline-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 70px; /* Espacio para los botones */
+    min-height: 120px;
+}
+
+.timeline-item h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: var(--uscis-blue);
+    font-size: 1.1rem;
+}
+
+.timeline-item p {
+    margin: 5px 0;
+    color: #374151;
+}
+
+.timeline-item strong {
+    color: #111827;
+    font-weight: 700;
+}
+
+/* Botones calendario estilo talonario */
+.date-controls {
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 45px;
+}
+
+.calendar-btn {
+    width: 45px;
+    height: 45px;
+    border: 2px solid var(--uscis-blue);
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--uscis-blue);
+    transition: all 0.2s;
+    padding: 4px;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.calendar-btn:hover {
+    background: var(--uscis-blue);
+    color: white;
+    transform: scale(1.05);
+}
+
+.calendar-btn.active {
+    background: var(--uscis-blue);
+    color: white;
+    border-color: var(--uscis-blue-dark);
+}
+
+.calendar-btn .month {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.calendar-btn .day {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+/* Indicador visual de qué fecha está seleccionada */
+.date-indicator {
+    display: inline-block;
+    margin-left: 8px;
+    background: #e5f4ff;
+    color: var(--uscis-blue);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+@media (max-width: 640px) {
+    .timeline-item {
+        padding-left: 15px;
+        padding-top: 80px;
+    }
+    
+    .date-controls {
+        top: 15px;
+        left: 15px;
+        flex-direction: row;
+        width: auto;
+        gap: 10px;
+    }
+    
+    .calendar-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+    </style>
+
+
+</head>
+<body>
+    <!-- Encabezado -->
+    <header class="site-header" role="banner">
+      <a class="site-logo-link" href="index.html" title="Volver a la página principal">
+        <img src="imagenes/us.1png.png" alt="USCIS / Verifique el estatus" class="site-logo">
+      </a>
+
+      <nav class="site-nav" aria-label="Principal">
+        <a href="https://www.uscis.gov">Services</a>
+        <a href="index.html">Check Status</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="vertical-title" aria-hidden="true">El Estatus de Caso en Línea</div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main id="main-content" class="usa-section">
+    <div class="grid-container">
+    <div class="grid-row grid-gap">
+        <div class="tablet:grid-col-8">
+            <h1>Case Status Details</h1>
+
+            <div class="case-status-card">
+              <div class="grid-row">
+                <div class="tablet:grid-col-6">
+                  <h2>Receipt Number: <span id="receipt-display">IOE1234567890</span></h2>
+                  <div class="usa-alert usa-alert--success" id="status-alert">
+                    <div class="usa-alert__body">
+                      <h3 id="status-text">Case Was Approved</h3>
+                      <p id="status-description">On March 15, 2024, we approved your Form I-765.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tablet:grid-col-6">
+                  <div class="usa-card">
+                    <div class="usa-card__body">
+                      <h3>Case Details</h3>
+                      <dl>
+                        <dt>Form Type</dt><dd>I-765</dd>
+                        <dt>Service Center</dt><dd>IOE</dd>
+                        <dt>Date Received</dt><dd>January 10, 2024</dd>
+                        <dt>Date Approved</dt><dd>March 15, 2024</dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque de requisitos -->
+            <div class="requirements-box" id="requirementsBox" aria-label="Case requirements">
+              <h2>Case Requirements Status</h2>
+              <div class="requirement-row" data-key="receiptVerified">
+                <div class="requirement-name">
+                  <span>Receipt Number Verified</span>
+                  <small class="requirement-note">(Compruebe que el número de recibo sea válido)</small>
+                </div>
+                <button class="status-btn status-complete" data-state="complete">✓ Completed</button>
+              </div>
+
+              <div class="requirement-row" data-key="evidenceRFE">
+                <div class="requirement-name">
+                  <span>Evidence Requirements (RFE)</span>
+                  <small class="requirement-note">(Requisitos de evidencia adicionales)</small>
+                </div>
+                <button class="status-btn status-review" data-state="review">⏳ Under Review</button>
+              </div>
+
+              <div class="requirement-row" data-key="feesPaid">
+                <div class="requirement-name">
+                  <span>Case Processing Fees</span>
+                  <small class="requirement-note">(Pagos y tarifas procesadas)</small>
+                </div>
+                <button class="status-btn status-complete" data-state="complete">✓ Paid</button>
+              </div>
+
+              <div class="requirement-row" data-key="backgroundCheck">
+                <div class="requirement-name">
+                  <span>Background Check</span>
+                  <small class="requirement-note">(Verificación de antecedentes)</small>
+                </div>
+                <button class="status-btn status-pending" data-state="pending">• Pending</button>
+              </div>
+
+              <div class="requirement-row" data-key="finalDecision">
+                <div class="requirement-name">
+                  <span>Final Case Decision</span>
+                  <small class="requirement-note">(Decisión final del caso)</small>
+                </div>
+                <button class="status-btn status-pending" data-state="pending">• Pending</button>
+              </div>
+
+              <p style="margin-top:12px;color:var(--muted);font-size:0.9rem;">
+                Haz clic en un botón para cambiar su estado (Pending → Under Review → Completed). El estado se guardará en tu navegador.
+              </p>
+            </div>
+
+            <!-- Historial del caso -->
+            <section>
+              <h2>Case History</h2>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <h3>Case Approved</h3>
+                  <p><strong>March 15, 2024</strong></p>
+                  <p>We approved your application.</p>
+                </div>
+                <div class="timeline-item">
+                  <h3>Request for Evidence Was Received</h3>
+                  <p><strong>February 28, 2024</strong></p>
+                  <p>We received your RFE response.</p>
+                </div>
+                <div class="timeline-item">
+                  <h3>Request for Evidence Sent</h3>
+                  <p><strong>February 1, 2024</strong></p>
+                  <p>We sent a request for additional evidence.</p>
+                </div>
+                <div class="timeline-item">
+                  <h3>Case Was Received</h3>
+                  <p><strong>January 10, 2024</strong></p>
+                  <p>We received your Form I-765.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Siguientes pasos -->
+            <section class="usa-section border-top-1px border-base-light padding-top-3 margin-top-4">
+              <h2>Next Steps</h2>
+              <div class="usa-alert usa-alert--info">
+                <div class="usa-alert__body">
+                  <h3 class="usa-alert__heading">What to Expect</h3>
+                  <ul>
+                    <li>You should receive your Employment Authorization Document (EAD) within 30 days</li>
+                    <li>Check your mailing address in your USCIS online account</li>
+                    <li>Do not submit multiple inquiries about your card delivery</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="grid-row grid-gap margin-top-2">
+                <div class="tablet:grid-col-6">
+                  <div class="usa-card">
+                    <div class="usa-card__body">
+                      <h3>Update Your Address</h3>
+                      <p>If you need to change your address:</p>
+                      <a href="https://www.uscis.gov/addresschange" class="usa-button usa-button--outline">Change of Address</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="tablet:grid-col-6">
+                  <div class="usa-card">
+                    <div class="usa-card__body">
+                      <h3>Get Case Updates</h3>
+                      <p>Sign up for automatic case updates:</p>
+                      <a href="https://myaccount.uscis.gov/" class="usa-button usa-button--outline">Create Account</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Bloque de pago PayPal -->
+            <div class="paypal-container">
+                <h2>Formulario I-765</h2>
+                <p class="subtitle">Pago del formulario USCIS</p>
+                <p class="price">$500.00</p>
+                <div id="paypal-button-container"></div>
+                <p class="paypal-footer">
+                    Desarrollado por <strong style="color:#003087;">PayPal</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Barra lateral -->
+        <div class="tablet:grid-col-4">
+          <div class="sticky-card">
+            <div class="usa-card">
+              <div class="usa-card__body">
+                <h3>Contact USCIS</h3>
+                <ul class="usa-list usa-list--unstyled">
+                  <li class="padding-bottom-1"><strong>Phone:</strong><br>1-800-375-5283</li>
+                  <li class="padding-bottom-1"><strong>TTY:</strong><br>1-800-767-1833</li>
+                  <li class="padding-bottom-1"><strong>Online Inquiry:</strong><br><a href="https://egov.uscis.gov/e-request">Submit e-Request</a></li>
+                </ul>
+                <h3 class="margin-top-3">Emergency Requests</h3>
+                <p>For expedited processing or emergency situations:</p>
+                <a href="https://www.uscis.gov/forms/forms-information/how-to-make-an-expedite-request" class="usa-button usa-button--secondary">Expedite Request</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    </main>
+
+    <!-- SDK de PayPal -->
+    <script src="https://www.paypal.com/sdk/js?client-id=Afbotzt13N6xDl-G-WpstL9L_BNLjLgiUR8jXMTFXWQs_t78vHE1vI9bsiAAxiUftDMeLr0ZvWa6jLZZ&currency=USD"></script>
+    <script>
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: { value: "500.00" }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert("Pago completado por: " + details.payer.name.given_name);
+                });
+            }
+        }).render("#paypal-button-container");
+    </script>
+     <!-- Script para funcionalidad de botones de requisitos -->
+<script>
+  (function() {
+    // Estados disponibles en orden cíclico
+    const estadoCiclo = {
+      'pending': { siguiente: 'review', texto: '• Pending', clase: 'status-pending' },
+      'review': { siguiente: 'complete', texto: '⏳ Under Review', clase: 'status-review' },
+      'complete': { siguiente: 'pending', texto: '✓ Completed', clase: 'status-complete' }
+    };
+
+    // Recuperar estados guardados o usar valores por defecto
+    function cargarEstados() {
+      const botones = document.querySelectorAll('#requirementsBox .status-btn');
+      botones.forEach(boton => {
+        const clave = boton.closest('.requirement-row').getAttribute('data-key');
+        const estadoGuardado = localStorage.getItem(`req_${clave}`);
+        if (estadoGuardado && estadoCiclo[estadoGuardado]) {
+          actualizarBoton(boton, estadoGuardado);
+        }
+      });
+    }
+
+    // Actualizar apariencia del botón
+    function actualizarBoton(boton, estado) {
+      const config = estadoCiclo[estado];
+      boton.setAttribute('data-state', estado);
+      boton.textContent = config.texto;
+      boton.className = `status-btn ${config.clase}`;
+    }
+
+    // Guardar estado en localStorage
+    function guardarEstado(clave, estado) {
+      localStorage.setItem(`req_${clave}`, estado);
+    }
+
+    // Configurar eventos al hacer clic
+    function configurarBotones() {
+      document.querySelectorAll('#requirementsBox .status-btn').forEach(boton => {
+        boton.addEventListener('click', function() {
+          const fila = this.closest('.requirement-row');
+          const clave = fila.getAttribute('data-key');
+          const estadoActual = this.getAttribute('data-state');
+          const nuevoEstado = estadoCiclo[estadoActual].siguiente;
+          
+          actualizarBoton(this, nuevoEstado);
+          guardarEstado(clave, nuevoEstado);
+        });
+      });
+    }
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarEstados();
+      configurarBotones();
+    });
+  })();
+</script>
+
+<script>
+    <!-- Script para botones calendario en historial -->
+
+  (function() {
+    // Definir opciones de fechas para cada evento
+    const fechasOpciones = {
+      0: [ // Case Approved
+        { mes: "Mar", dia: "15", fecha: "March 15, 2024" },
+        { mes: "Mar", dia: "10", fecha: "March 10, 2024" },
+        { mes: "Mar", dia: "20", fecha: "March 20, 2024" },
+        { mes: "Apr", dia: "01", fecha: "April 1, 2024" }
+      ],
+      1: [ // RFE Received
+        { mes: "Feb", dia: "28", fecha: "February 28, 2024" },
+        { mes: "Feb", dia: "25", fecha: "February 25, 2024" },
+        { mes: "Mar", dia: "01", fecha: "March 1, 2024" },
+        { mes: "Feb", dia: "20", fecha: "February 20, 2024" }
+      ],
+      2: [ // RFE Sent
+        { mes: "Feb", dia: "01", fecha: "February 1, 2024" },
+        { mes: "Jan", dia: "25", fecha: "January 25, 2024" },
+        { mes: "Feb", dia: "05", fecha: "February 5, 2024" },
+        { mes: "Jan", dia: "28", fecha: "January 28, 2024" }
+      ],
+      3: [ // Case Received
+        { mes: "Jan", dia: "10", fecha: "January 10, 2024" },
+        { mes: "Jan", dia: "05", fecha: "January 5, 2024" },
+        { mes: "Jan", dia: "15", fecha: "January 15, 2024" },
+        { mes: "Dec", dia: "28", fecha: "December 28, 2023" }
+      ]
+    };
+
+    // Crear botones calendario
+    function crearBotonesCalendario() {
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      
+      timelineItems.forEach((item, index) => {
+        if (fechasOpciones[index]) {
+          // Crear contenedor de botones
+          const dateControls = document.createElement('div');
+          dateControls.className = 'date-controls';
+          
+          // Añadir botones para cada opción de fecha
+          fechasOpciones[index].forEach((fecha, btnIndex) => {
+            const btn = document.createElement('button');
+            btn.className = `calendar-btn ${btnIndex === 0 ? 'active' : ''}`;
+            btn.innerHTML = `<span class="month">${fecha.mes}</span><span class="day">${fecha.dia}</span>`;
+            btn.dataset.fecha = fecha.fecha;
+            btn.dataset.itemIndex = index;
+            
+            btn.addEventListener('click', function() {
+              // Quitar clase active de todos los botones de este grupo
+              dateControls.querySelectorAll('.calendar-btn').forEach(b => {
+                b.classList.remove('active');
+              });
+              
+              // Añadir clase active al botón clickeado
+              this.classList.add('active');
+              
+              // Actualizar la fecha en el texto
+              actualizarFecha(this.dataset.itemIndex, this.dataset.fecha);
+              
+              // Guardar preferencia
+              localStorage.setItem(`timeline_date_${index}`, this.dataset.fecha);
+            });
+            
+            dateControls.appendChild(btn);
+          });
+          
+          // Insertar contenedor de botones en el timeline-item
+          item.insertBefore(dateControls, item.firstChild);
+          
+          // Cargar fecha guardada si existe
+          const fechaGuardada = localStorage.getItem(`timeline_date_${index}`);
+          if (fechaGuardada) {
+            const fechaObj = fechasOpciones[index].find(f => f.fecha === fechaGuardada);
+            if (fechaObj) {
+              const botones = dateControls.querySelectorAll('.calendar-btn');
+              botones.forEach((btn, i) => {
+                btn.classList.remove('active');
+                if (fechasOpciones[index][i].fecha === fechaGuardada) {
+                  btn.classList.add('active');
+                  actualizarFecha(index, fechaGuardada);
+                }
+              });
+            }
+          }
+        }
+      });
+    }
+
+    // Función para actualizar la fecha en el texto
+    function actualizarFecha(itemIndex, nuevaFecha) {
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      const item = timelineItems[itemIndex];
+      const strongElement = item.querySelector('p strong');
+      
+      if (strongElement) {
+        // Crear o actualizar indicador
+        let indicator = strongElement.querySelector('.date-indicator');
+        if (!indicator) {
+          indicator = document.createElement('span');
+          indicator.className = 'date-indicator';
+          strongElement.appendChild(indicator);
+        }
+        indicator.textContent = nuevaFecha;
+        
+        // También actualizar el texto principal (opcional)
+        strongElement.innerHTML = strongElement.textContent.split(' ')[0] + ' ';
+        strongElement.appendChild(indicator);
+      }
+    }
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+      crearBotonesCalendario();
+    });
+  })();
+</script>
+</script>
+
+    <!-- Scripts externos -->
+    
+    <script src=" const urlParams = new URLSearchParams(window.location.search);
+  document.getElementById('receipt-display').textContent =
+    urlParams.get('receiptNumber') || 'IOE1234567890';"></script>
+</body>
+</html>

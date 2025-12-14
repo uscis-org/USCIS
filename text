@@ -1,0 +1,17 @@
+tu-proyecto/
+├── index.html
+├── case-status.html
+├── css/
+│   ├── styles.css
+│   └── case-status.css
+├── js/
+│   ├── main.js
+│   └── case-status.js
+└── imagenes/
+    └── logos/
+        ├── us.1png.png
+        ├── 1logo.png
+        ├── p1.png
+        ├── p2.png
+        ├── p3.png
+        └── p4.png

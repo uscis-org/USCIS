@@ -1,0 +1,221 @@
+:root{
+    --uscis-blue: #0b67b2;
+    --uscis-blue-dark: #084f87;
+    --muted: #6b7280;
+    --page-bg: #f5f7f9;
+    --border: #e6eaef;
+    --radius: 8px;
+}
+
+body {
+    background: var(--page-bg) !important;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    margin:0;
+}
+
+/* Encabezado similar a la segunda foto */
+.site-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+/* logo clicable (imagen) */
+.site-logo-link {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+}
+
+.site-logo {
+    display:block;
+    width: 220px;
+    max-width:32vw;
+    height:auto;
+    object-fit:contain;
+}
+
+/* Texto y enlaces del header al lado derecho */
+.site-nav {
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+.site-nav a {
+    color: var(--uscis-blue-dark);
+    font-weight:600;
+    text-decoration:none;
+    padding:8px 10px;
+    border-radius:6px;
+}
+.site-nav a:hover { background:#f3f6fb; }
+
+/* pequeño tagline/vertical title (opcional) */
+.vertical-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-weight:700;
+    color:var(--muted);
+    margin-left:6px;
+    display:none;
+}
+
+@media(min-width:1200px){
+    .vertical-title { display:block; }
+}
+
+/* Ajustes para móvil */
+@media(max-width:640px){
+    .site-logo { width:140px; }
+    .site-nav { font-size:14px; }
+}
+
+/* === Estilos ya existentes del body === */
+.case-status-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 8px solid var(--uscis-blue);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 2rem 0;
+}
+
+/* ======= ESTILOS ADICIONADOS: requisitos + botones ======= */
+.requirements-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    margin-top: 22px;
+    max-width: 100%;
+    box-shadow: 0 2px 6px rgba(16,24,40,0.03);
+}
+
+.requirements-box h2 {
+    margin: 0 0 10px;
+    font-size: 1.05rem;
+    color: #111827;
+}
+
+.requirement-row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding: 10px 0;
+    border-top: 1px solid #f3f5f7;
+}
+.requirement-row:first-of-type { border-top: none; }
+
+.requirement-name {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:600;
+    color:#111827;
+}
+.requirement-note {
+    display:block;
+    font-size:0.9rem;
+    color:var(--muted);
+    font-weight:400;
+}
+
+.status-btn {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight:700;
+    cursor: pointer;
+    min-width:106px;
+    text-align:center;
+    box-shadow: 0 1px 0 rgba(16,24,40,0.04);
+}
+
+/* estados visuales */
+.status-pending {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+.status-review {
+    background: #f59e0b;
+    color: #fff;
+}
+.status-complete {
+    background: #16a34a;
+    color: #fff;
+}
+
+/* pequeño icono dentro del botón */
+.status-icon {
+    display:inline-block;
+    margin-right:8px;
+    font-size:14px;
+    vertical-align:middle;
+}
+
+@media(max-width:720px){
+    .requirement-row { flex-direction: column; align-items:flex-start; gap:8px; }
+    .status-btn { width:100%; max-width:240px; }
+}
+
+/* ======= Estilos para el recuadro de pago ======= */
+.payment-box {
+    background: linear-gradient(180deg,#ffffff,#fbfdff);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 28px;
+    box-shadow: 0 6px 18px rgba(14,30,52,0.06);
+}
+.payment-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.payment-info { font-size:0.98rem; color:#111827; }
+.payment-price { font-weight:800; font-size:1.15rem; color:#111827; }
+.small-note { color:var(--muted); font-size:0.9rem; margin-top:8px; }
+@media(max-width:720px){
+    .payment-row { flex-direction:column; align-items:flex-start; }
+}
+
+/* ======= Estilos para PayPal ======= */
+.paypal-container {
+    max-width: 380px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.paypal-container h2 {
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+}
+
+.paypal-container p.subtitle {
+    margin:4px 0 12px;
+    color:#6b7280;
+}
+
+.paypal-container .price {
+    font-size:26px;
+    font-weight:700;
+    color:#0b67b2;
+    margin-bottom:20px;
+}
+
+.paypal-container .paypal-footer {
+    margin-top:28px;
+    text-align:center;
+    font-size:13px;
+    color:#6b7280;
+}
