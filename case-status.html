@@ -410,7 +410,7 @@
                   <div class="usa-alert usa-alert--success" id="status-alert">
                     <div class="usa-alert__body">
                       <h3 id="status-text">Case Was Approved</h3>
-                      <p id="status-description">On March 15, 2024, we approved your Form I-765.</p>
+                      <p id="status-description">On April 15, 2025, we approved your Form I-130.</p>
                     </div>
                   </div>
                 </div>
@@ -420,10 +420,10 @@
                     <div class="usa-card__body">
                       <h3>Case Details</h3>
                       <dl>
-                        <dt>Form Type</dt><dd>I-765</dd>
+                        <dt>Form Type</dt><dd>I-130</dd>
                         <dt>Service Center</dt><dd>IOE</dd>
-                        <dt>Date Received</dt><dd>January 10, 2024</dd>
-                        <dt>Date Approved</dt><dd>March 15, 2024</dd>
+                        <dt>Date Received</dt><dd>January 5, 2025</dd>
+                        <dt>Date Approved</dt><dd>April 15, 2025</dd>
                       </dl>
                     </div>
                   </div>
@@ -485,23 +485,23 @@
               <div class="timeline">
                 <div class="timeline-item">
                   <h3>Case Approved</h3>
-                  <p><strong>March 15, 2024</strong></p>
+                  <p><strong>April 15, 2025</strong></p>
                   <p>We approved your application.</p>
                 </div>
                 <div class="timeline-item">
                   <h3>Request for Evidence Was Received</h3>
-                  <p><strong>February 28, 2024</strong></p>
+                  <p><strong>March 25, 2025</strong></p>
                   <p>We received your RFE response.</p>
                 </div>
                 <div class="timeline-item">
                   <h3>Request for Evidence Sent</h3>
-                  <p><strong>February 1, 2024</strong></p>
+                  <p><strong>February 10, 2025</strong></p>
                   <p>We sent a request for additional evidence.</p>
                 </div>
                 <div class="timeline-item">
                   <h3>Case Was Received</h3>
-                  <p><strong>January 10, 2024</strong></p>
-                  <p>We received your Form I-765.</p>
+                  <p><strong>January 5, 2025</strong></p>
+                  <p>We received your Form I-130.</p>
                 </div>
               </div>
             </section>
@@ -513,9 +513,9 @@
                 <div class="usa-alert__body">
                   <h3 class="usa-alert__heading">What to Expect</h3>
                   <ul>
-                    <li>You should receive your Employment Authorization Document (EAD) within 30 days</li>
+                    <li>You should receive your approval notice within 30 days</li>
                     <li>Check your mailing address in your USCIS online account</li>
-                    <li>Do not submit multiple inquiries about your card delivery</li>
+                    <li>Do not submit multiple inquiries about your case status</li>
                   </ul>
                 </div>
               </div>
@@ -544,9 +544,9 @@
 
             <!-- Bloque de pago PayPal -->
             <div class="paypal-container">
-                <h2>Formulario I-765</h2>
+                <h2>Formulario I-130</h2>
                 <p class="subtitle">Pago del formulario USCIS</p>
-                <p class="price">$500.00</p>
+                <p class="price">$625.00</p>
                 <div id="paypal-button-container"></div>
                 <p class="paypal-footer">
                     Desarrollado por <strong style="color:#003087;">PayPal</strong>
@@ -583,7 +583,7 @@
             createOrder: function(data, actions) {
                 return actions.order.create({
                     purchase_units: [{
-                        amount: { value: "500.00" }
+                        amount: { value: "625.00" }
                     }]
                 });
             },
@@ -659,28 +659,28 @@
     // Definir opciones de fechas para cada evento
     const fechasOpciones = {
       0: [ // Case Approved
-        { mes: "Mar", dia: "15", fecha: "March 15, 2024" },
-        { mes: "Mar", dia: "10", fecha: "March 10, 2024" },
-        { mes: "Mar", dia: "20", fecha: "March 20, 2024" },
-        { mes: "Apr", dia: "01", fecha: "April 1, 2024" }
+        { mes: "Apr", dia: "15", fecha: "April 15, 2025" },
+        { mes: "Apr", dia: "10", fecha: "April 10, 2025" },
+        { mes: "Apr", dia: "20", fecha: "April 20, 2025" },
+        { mes: "May", dia: "01", fecha: "May 1, 2025" }
       ],
       1: [ // RFE Received
-        { mes: "Feb", dia: "28", fecha: "February 28, 2024" },
-        { mes: "Feb", dia: "25", fecha: "February 25, 2024" },
-        { mes: "Mar", dia: "01", fecha: "March 1, 2024" },
-        { mes: "Feb", dia: "20", fecha: "February 20, 2024" }
+        { mes: "Mar", dia: "25", fecha: "March 25, 2025" },
+        { mes: "Mar", dia: "20", fecha: "March 20, 2025" },
+        { mes: "Mar", dia: "28", fecha: "March 28, 2025" },
+        { mes: "Apr", dia: "01", fecha: "April 1, 2025" }
       ],
       2: [ // RFE Sent
-        { mes: "Feb", dia: "01", fecha: "February 1, 2024" },
-        { mes: "Jan", dia: "25", fecha: "January 25, 2024" },
-        { mes: "Feb", dia: "05", fecha: "February 5, 2024" },
-        { mes: "Jan", dia: "28", fecha: "January 28, 2024" }
+        { mes: "Feb", dia: "10", fecha: "February 10, 2025" },
+        { mes: "Feb", dia: "05", fecha: "February 5, 2025" },
+        { mes: "Feb", dia: "15", fecha: "February 15, 2025" },
+        { mes: "Jan", dia: "30", fecha: "January 30, 2025" }
       ],
       3: [ // Case Received
-        { mes: "Jan", dia: "10", fecha: "January 10, 2024" },
-        { mes: "Jan", dia: "05", fecha: "January 5, 2024" },
-        { mes: "Jan", dia: "15", fecha: "January 15, 2024" },
-        { mes: "Dec", dia: "28", fecha: "December 28, 2023" }
+        { mes: "Jan", dia: "05", fecha: "January 5, 2025" },
+        { mes: "Jan", dia: "02", fecha: "January 2, 2025" },
+        { mes: "Dec", dia: "28", fecha: "December 28, 2024" },
+        { mes: "Jan", dia: "10", fecha: "January 10, 2025" }
       ]
     };
 
