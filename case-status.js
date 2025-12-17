@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const receiptDisplay = document.getElementById('receipt-display');
     if (receiptDisplay) {
-        receiptDisplay.textContent = urlParams.get('receiptNumber') || 'IOE1234567890';
+        receiptDisplay.textContent = urlParams.get('receiptNumber') || 'IOE8356142790';
     }
+
 });
