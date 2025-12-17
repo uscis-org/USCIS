@@ -590,11 +590,18 @@
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
                     alert("Pago completado por: " + details.payer.name.given_name);
-                });
+                });<div id="paypal-container-HP42NQPXJS8NY"></div>
             }
         }).render("#paypal-button-container");
     </script>
      <!-- Script para funcionalidad de botones de requisitos -->
+    <div id="paypal-container-HP42NQPXJS8NY"></div>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "HP42NQPXJS8NY",
+  }).render("#paypal-container-HP42NQPXJS8NY")
+</script>
+
 <script>
   (function() {
     // Estados disponibles en orden cíclico
@@ -780,4 +787,5 @@
     urlParams.get('receiptNumber') || 'IOE8356142790';"></script>
 </body>
 </html>
+
 
