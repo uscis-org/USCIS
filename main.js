@@ -8,7 +8,7 @@ function toggleMenu() {
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const password = document.getElementById('password').value;
-    const correctPassword = 'IOE8356142790';
+    const correctPassword = 'IOE9391194034';
     if (password === correctPassword) {
         window.location.href = 'case-status.html?receiptNumber=' + encodeURIComponent(password);
     } else {
@@ -16,3 +16,4 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     }
 
 });
+
