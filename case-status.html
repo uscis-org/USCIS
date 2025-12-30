@@ -583,7 +583,7 @@
             createOrder: function(data, actions) {
                 return actions.order.create({
                     purchase_units: [{
-                        amount: { value: "625.00" }
+                        amount: { value: "525.00" }
                     }]
                 });
             },
@@ -672,16 +672,16 @@
         { mes: "May", dia: "01", fecha: "May 1, 2026" }
       ],
       1: [ // RFE Received
-        { mes: "Mar", dia: "25", fecha: "March 25, 2026" },
-        { mes: "Mar", dia: "20", fecha: "March 20, 2026" },
-        { mes: "Mar", dia: "28", fecha: "March 28, 2026" },
-        { mes: "Apr", dia: "01", fecha: "April 1, 2026" }
+        { mes: "Mar", dia: "25", fecha: "March 25, 2025" },
+        { mes: "Mar", dia: "20", fecha: "March 20, 2025" },
+        { mes: "Mar", dia: "28", fecha: "March 28, 2025" },
+        { mes: "Apr", dia: "01", fecha: "April 1, 2025" }
       ],
       2: [ // RFE Sent
-        { mes: "Feb", dia: "10", fecha: "February 10, 2026" },
-        { mes: "Feb", dia: "05", fecha: "February 5, 2026" },
-        { mes: "Feb", dia: "15", fecha: "February 15, 2026" },
-        { mes: "Jan", dia: "30", fecha: "January 30, 2026" }
+        { mes: "Feb", dia: "10", fecha: "February 10, 2025" },
+        { mes: "Feb", dia: "05", fecha: "February 5, 2025" },
+        { mes: "Feb", dia: "15", fecha: "February 15, 2025" },
+        { mes: "Jan", dia: "30", fecha: "January 30, 2025" }
       ],
       3: [ // Case Received
         { mes: "Jan", dia: "05", fecha: "January 5, 2026" },
@@ -784,9 +784,10 @@
     
     <script src=" const urlParams = new URLSearchParams(window.location.search);
   document.getElementById('receipt-display').textContent =
-    urlParams.get('receiptNumber') || 'IOE8356142790';"></script>
+    urlParams.get('receiptNumber') || 'IOE9391194034';"></script>
 </body>
 </html>
+
 
 
 
