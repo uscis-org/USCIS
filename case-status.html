@@ -576,25 +576,6 @@
     </div>
     </main>
 
-    <!-- SDK de PayPal -->
-    <script src=""></script>
-    <script>
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: { value: "525.00" }
-                    }]
-                });
-            },
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    alert("Pago completado por: " + details.payer.name.given_name);
-                });<div id="paypal-container-HP42NQPXJS8NY"></div>
-            }
-        }).render("#paypal-button-container");
-    </script>
-     <!-- Script para funcionalidad de botones de requisitos -->
     
 <script>
   (function() {
@@ -781,6 +762,7 @@
     urlParams.get('receiptNumber') || 'IOE9391194034';"></script>
 </body>
 </html>
+
 
 
 
